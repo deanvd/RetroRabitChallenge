@@ -1,4 +1,6 @@
-copy foler to some location on windows pc navigate to \RetroRabit\bin\Debug
+****************GET GOING WITHOUT COMPILE*****************************************
+
+copy folderer to some location on windows pc navigate to \RetroRabit\bin\Debug
 
 and excecute TestApplication.exe
 
@@ -12,3 +14,12 @@ the search is not case sensitive
 
 enter kayword and hit enter
 
+****************HOW TO COMPILE*****************************************
+
+In the RetroRabit folder open TestApplication.csproj with Visual Studio 2015
+
+once opend right click project in solution explorer and click rebuild 
+
+after successful build the excutable will be under \RetroRabit\bin\Debug
+
+***********************?*************************************************

@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
+using System.Threading;
 
 namespace TestApplication
 {
     class Program
     {
-       
-        static Random _rabitran = new Random();
-
-       
-
         static void Main(string[] args)
         {
-            List<string> RetroDict = new List<string>();
+            List<string> retroDict = new List<string>();
             Random randomchar = new Random();
 
-            var Alphabet = new[]
+            var alphabet = new[]
             {
                 "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
                 "V", "W", "X", "Y", "Z"
@@ -33,31 +31,49 @@ namespace TestApplication
             //shuffel alphabet and generate string for csv 
             for (var x = 0; x < 50; x++)
             {
-                var randomSelection = (from c in Alphabet orderby randomchar.Next() select c).Take(5);
-                var DictEntryList = randomSelection.ToList();
-                RetroDict.Add(DictEntryList[0] + DictEntryList[1] + DictEntryList[2] + DictEntryList[3] +
-                              DictEntryList[4]);
+                var randomSelection = (from c in alphabet orderby randomchar.Next() select c).Take(5);
+                var dictEntryList = randomSelection.ToList();
+                retroDict.Add(dictEntryList[0] + dictEntryList[1] + dictEntryList[2] + dictEntryList[3] +
+                              dictEntryList[4]);
 
             }
    
             //combine and format for CSV from alphabet strings
             var csv = new StringBuilder();
-            foreach (var VARIABLE in RetroDict.Distinct())
+            foreach (var variable in retroDict.Distinct())
             {
-                var Record = VARIABLE.ToString();
+                var record = variable.ToString();
                 var delimiter = ",";
-                var NewRecord = string.Format("{0}", Record);
-                csv.AppendLine(string.Concat(NewRecord, delimiter));
-                Console.WriteLine(Record);
-
+                var newRecord = string.Format("{0}", record);
+                csv.AppendLine(string.Concat(newRecord, delimiter));
+                Console.WriteLine(record);
             }
-
+            //Write textFile
             File.WriteAllText(@"RetroRabitDictResult.txt", csv.ToString().Substring(0, csv.Length - 3));
+            //info
+            Console.WriteLine("Carrots(String) in the txt file generated......\n\n\n");
+            Console.WriteLine("Retro Rabbit File Created......\n\n");
 
-            Console.WriteLine("Values in the txt file generater......\n\n\n");
+        
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Press enter to open bucket of carrots....");
+            Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine("Retro Rabit File Created......\n\n");
+      
 
+            Console.ReadLine();
+
+            //Open File in Notepad
+            var OpenGeneratedDict = new ProcessStartInfo(@"RetroRabitDictResult.txt")
+            {
+                WindowStyle = ProcessWindowStyle.Maximized,
+                Arguments = @"RetroRabitDictResult.txt"
+            };
+
+            Process.Start(OpenGeneratedDict);
+
+
+            //Call Search Function
             Console.WriteLine(SearchFile());
             Console.ReadLine();
 
@@ -69,40 +85,77 @@ namespace TestApplication
 
         public static string SearchFile()
         {
-            Console.Write("Enter Keyword: ");
-            var Search = Console.ReadLine() ?? "";
-            var find = false;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.Write("Use one of the Carrots(string) in the bucket and to throw it in the Rabbit Hole! \nLet's see if we can find the Rabbit !!! \n\n");
+            Console.Write("Rabit Hole :  ");
+            Console.ForegroundColor = ConsoleColor.White;
+            var search = Console.ReadLine() ?? "";
             using (var sr = new StreamReader(@"RetroRabitDictResult.txt"))
             {
                 while (!sr.EndOfStream)
                 {
                     var line = sr.ReadLine();
+                    var find = false;
                     if (line.Length == 6)
                     {
-                         find = string.Equals(line.Substring(0, line.Length - 1), Search.ToUpper());
+                         find = string.Equals(line.Substring(0, line.Length - 1), search.ToUpper());
                     }
                     else
                     {
-                        find = string.Equals(line, Search.ToUpper());
+                        find = string.Equals(line, search.ToUpper());
                     }
                    
 
                     if (find)
                     {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        return "\n\nString Found!!   :   " + line.Substring(0, line.Length - 1) + "\n\n\nDone ! Press any key to exit.";
+                        rabbitImage();
+                        
+                      
+                        return "\n\nFound the Rabbit   :   " + line.Substring(0, line.Length - 1) + "\n\n\nDone !\nPress any key to exit.";
                        
                     }
                 }
             }
+
+
             Console.ForegroundColor = ConsoleColor.Red;
-            return "String Not Found" + "\n\n\nDone ! Press any key to exit.";
+            return "Can't find the Rabbit." + "\n\n\nDone !\nPress any key to exit.";
             ;
         }
+
+        public static void rabbitImage()
+        {
+
+
+
+            string rabbit =
+
+
+                @"  ** **" + "\n" +
+                @" * *   **" + "\n" +
+                @" **   **         ****" + "\n" +
+                @" * *   **       **   ****" + "\n" +
+                @" **  **       *   **   **" + "\n" +
+                @" * *  *      *  **  ***  **" + "\n" +
+                @"   **  *    *  **     **  *" + "\n" +
+                @"   * * **  ** **        **" + "\n" +
+                @"    **   **  **" + "\n" +
+                @"   *           *" + "\n" +
+                @"  *             *" + "\n" +
+                @" *    0     0    *" + "\n" +
+                @" *   /   @   \   *" + "\n" +
+                @" *   \__/ \__/   *" + "\n" +
+                @"   *     W     *" + "\n" +
+                @"    * *     **" + "\n" +
+                @"       *****" + "\n";
+            
+             Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(rabbit);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+    }
     }
 
-
-}
 
 
     

@@ -1,6 +1,6 @@
 ****************GET GOING WITHOUT COMPILE*****************************************
 
-copy folderer to some location on windows pc navigate to \RetroRabit\bin\Debug
+copy folder to some location on windows pc navigate to \RetroRabit\bin\Debug
 
 and excecute TestApplication.exe
 
